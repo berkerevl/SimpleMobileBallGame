@@ -7,6 +7,7 @@ public class BallHandler : MonoBehaviour
 {
 
     private Camera mainCamera;
+    [SerializeField] private Rigidbody2D currentBallRigidBody;
 
     // Start is called before the first frame update
     void Start()
@@ -17,10 +18,18 @@ public class BallHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!Touchscreen.current.primaryTouch.press.isPressed) return;
+        if(!Touchscreen.current.primaryTouch.press.isPressed) 
+        {
+            currentBallRigidBody.isKinematic = false;
+            return;
+        }
         
+        currentBallRigidBody.isKinematic = true;
+
         Vector2 touchPosition = Touchscreen.current.primaryTouch.position.ReadValue();
         Vector3 worldPosition = mainCamera.ScreenToWorldPoint(touchPosition);
-        Debug.Log(worldPosition);
+        currentBallRigidBody.position = worldPosition;
+        
+
     }
 }
